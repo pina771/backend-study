@@ -29,7 +29,7 @@ router.post("/login", (req, res, next) => {
       res.status(401).send("User/password combination incorrect");
     } else {
       const accessToken = jwt.sign({ username: user.username }, secret, {
-        expiresIn: "20m",
+        expiresIn: "2h",
       });
       const refreshToken = jwt.sign({ username: user.username }, refreshSecret);
       refreshTokens.push(refreshToken);
@@ -61,7 +61,7 @@ router.post("/token", (req, res, next) => {
     }
 
     const accessToken = jwt.sign({ username: result.username }, secret, {
-      expiresIn: "20m",
+      expiresIn: "2h",
     });
     res.json({ accessToken });
   });
