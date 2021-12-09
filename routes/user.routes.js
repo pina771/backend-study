@@ -1,6 +1,7 @@
 var express = require("express");
 const userQueries = require("../queries/userQueries");
-const postsQueries = require("../queries/postsQueries");
+const postQueries = require("../queries/postQueries");
+const { authenticateJWT } = require("../auth/auth");
 
 var router = express.Router();
 
@@ -13,30 +14,28 @@ router.get("/", (req, res, next) => {
   })();
 });
 
-// Dohvaća specifičnog korisnika
-router.get("/:username", (req, res, next) => {
+// Dohvaća informacije o korisniku, (korisnik mora biti autoriziran )
+router.get("/:username", authenticateJWT, (req, res, next) => {
   (async () => {
-    var user = await userQueries.getUserByUsername(req.params.username);
-    console.log(user);
-    res.status(200).json(user);
+    if (req.authInfo.username == req.params.username) {
+      var user = await userQueries.getUserByUsername(req.params.username);
+      console.log(user);
+      res.status(200).json(user);
+    } else {
+      res.status(401).send("Unauthorized");
+    }
   })();
 });
-router.delete("/:username", (req, res, next) => {
-  (async () => {})();
-});
 
-// Stvara novog korisnika za taj URI (u tijelu su lozinka i email)
-router.put("/:username", (req, res, next) => {
+
+router.delete("/:username", authenticateJWT, (req, res, next) => {
   (async () => {
-    // console.log("PUT");
-    // console.log("req.body.password=" + req.body.password);
-    var result = await userQueries.createUser([
-      req.params.username,
-      req.body.password,
-      req.body.email,
-    ]);
-    res.setHeader("Location","./"+req.params.username);
-    res.status(201).send(result.rows);
+    if (req.authInfo.username == req.params.username) {
+      var result = await userQueries.deleteUser([req.params.username]);
+      res.redirect(200, "../login");
+    } else {
+      res.status(401).send("Unauthorized!");
+    }
   })();
 });
 
@@ -46,15 +45,10 @@ router.get("/:username/posts", (req, res, next) => {
     // userQueries.getUserByUsername daje nazad polje JSON objekata, zato kasnije moram
     // izvuc korisnika kao user[0], jer znamo da je username UNIQUE pa moze biti samo jedan
     var user = await userQueries.getUserByUsername(req.params.username);
-    var posts = await postsQueries.getPostsOfUser(user[0].username);
+    var posts = await postQueries.getPostsOfUser(user[0].username);
     res.status(200).json(posts);
   })();
 });
 
-// TODO: Dodati metodu
-// Dodaje novu objavu za specifičnog korisnika
-router.post("/users/:username/posts", (req, res, next) => {
-  async () => {};
-});
 
 module.exports = router;

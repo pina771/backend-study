@@ -22,6 +22,17 @@ async function getUserByUsername(params) {
   }
 }
 
+async function getLoginData(params){
+  const sql = "SELECT username,password FROM users WHERE username=($1) AND password=($2)"
+  try {
+    const result = await db.query(sql,params);
+    return result.rows;
+  } catch(err) {
+    console.log(err);
+    throw err;
+  }
+}
+
 // poredak parametara :
 // $1 = username
 // $2 = password
@@ -51,15 +62,23 @@ async function deleteUser(params) {
 }
 
 async function updateUser(params) {
-  const sql = "UPDATE TABLE users SET password=($2),email=($3) WHERE username=($1)";
+  const sql =
+    "UPDATE TABLE users SET password=($2),email=($3) WHERE username=($1)";
   try {
-      const result = await db.query(sql,params);
-      console.log("Update result =" + result);
-      return result.rows
-  } catch(err) {
-      console.log(err) ; 
-      throw err;
+    const result = await db.query(sql, params);
+    console.log("Update result =" + result);
+    return result.rows;
+  } catch (err) {
+    console.log(err);
+    throw err;
   }
 }
 
-module.exports = { getAllUsers, getUserByUsername, createUser, updateUser,deleteUser};
+module.exports = {
+  getAllUsers,
+  getUserByUsername,
+  createUser,
+  updateUser,
+  deleteUser,
+  getLoginData
+};

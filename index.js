@@ -1,16 +1,27 @@
 const express = require("express");
 var bodyParser = require("body-parser");
+const jwt = require("jsonwebtoken");
+
 const usersRouter = require("./routes/user.routes");
-const apiRouter = require("./routes/api.routes");
+const postsRouter = require("./routes/post.routes");
+const registerRouter = require("./routes/register.routes");
+const loginRouter = require("./routes/login.routes");
+
 const app = express();
 
 const PORT = process.env.PORT || 3000;
+
+const secret = "elder-reflections-of-a-floating-world";
 
 // Postavljamo da API može interpretirati www-urlencoded i JSON tijela
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+// Router setup
 app.use("/api/users", usersRouter);
+app.use("/api/posts", postsRouter);
+app.use("/register", registerRouter);
+app.use("/login", loginRouter);
 
 app.set("view engine", "ejs");
 
