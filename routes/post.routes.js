@@ -1,18 +1,75 @@
 var express = require("express");
 const postQueries = require("../queries/postQueries");
+const { authenticateJWT } = require("../auth/auth");
 
 var router = express.Router();
 
-router.get("/posts", (req, res, next) => {
+// Dohvat svih objava u aplikaciji
+router.get("/", (req, res, next) => {
   (async () => {
     var posts = await postQueries.getAllPosts();
-    console.log(posts);
     res.status(200).json(posts);
   })();
 });
 
-// TODO: Stvaranje nove objave (u tijelu su username, title,content itd itd)
-router.post("/posts", (req,res,next) => {
+router.post("/", authenticateJWT, (req, res, next) => {
+  (async () => {
+    var result = await postQueries.createNewPost([
+      req.body.title,
+      req.body.content,
+      req.authInfo.username,
+    ]);
+    res.status(201).send("Post created!");
+  })();
+});
 
-})
+router.get("/:postId", (req, res, next) => {
+  (async () => {
+    var result = await postQueries.getPostById(req.params.postId);
+    if (result === undefined) res.status(404);
+    else {
+      res.status(200).send(result[0]);
+    }
+  })();
+});
+
+
+router.put("/:postId", authenticateJWT, (req, res, next) => {
+  (async () => {
+    // Prvo treba pronaći objavu
+    var post = await postQueries.getPostById(req.params.postId);
+    if (post[0] === undefined) {
+      res.status(404).send("No such post!"); // Ako ne pronađe se objava, 404 Not Found
+    } else {
+      if (post[0].username !== req.authInfo.username) {
+        // Ako nije autoriziran , 401 Unauthorized!
+        res.status(401).send("User not authorized to edit this post!");
+      } else {
+        // Ako je objava pronađena I korisnik je onaj koji ju je stvorio
+        var result = await postQueries.editPost([
+          req.params.postId,
+          req.body.title,
+          req.body.content,
+        ]);
+        res.status(200).send("Post successfully edited.");
+      }
+    }
+  })();
+});
+
+
+router.delete("/:postId", authenticateJWT, (req, res, next) => {
+  (async () => {
+    var post = await postQueries.getPostById(req.params.postId);
+    if (post[0] === undefined) {
+      res.status(404).send("Post not found!");
+    } else {
+      if (post[0].username !== req.authInfo.username) {
+        res.status(401).send("User not authorized to delete this post!");
+      } else {
+        var result = await postQueries.deletePost(req.params.postId);
+      }
+    }
+  })();
+});
 module.exports = router;

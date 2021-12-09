@@ -5,8 +5,8 @@ const { authenticateJWT } = require("../auth/auth");
 
 var router = express.Router();
 
-// Dohvaća sve korisnike
-router.get("/", (req, res, next) => {
+// Dohvaća sve korisnike, zahtijeva autorizaciju
+router.get("/", authenticateJWT, (req, res, next) => {
   (async () => {
     var users = await userQueries.getAllUsers();
     console.log(users);
@@ -27,12 +27,26 @@ router.get("/:username", authenticateJWT, (req, res, next) => {
   })();
 });
 
-
 router.delete("/:username", authenticateJWT, (req, res, next) => {
   (async () => {
     if (req.authInfo.username == req.params.username) {
       var result = await userQueries.deleteUser([req.params.username]);
-      res.redirect(200, "../login");
+      res.redirect(200,"http://localhost:3000" );
+    } else {
+      res.status(401).send("Unauthorized!");
+    }
+  })();
+});
+
+router.put("/:username", authenticateJWT, (req, res, next) => {
+  (async () => {
+    if (req.authInfo.username == req.params.username) {
+      var result = await userQueries.updateUser([
+        req.authInfo.username,
+        req.body.password,
+        req.body.email,
+      ]);
+      res.status(200).send("User info succesfully changed");
     } else {
       res.status(401).send("Unauthorized!");
     }
@@ -49,6 +63,5 @@ router.get("/:username/posts", (req, res, next) => {
     res.status(200).json(posts);
   })();
 });
-
 
 module.exports = router;

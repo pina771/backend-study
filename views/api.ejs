@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <title>ArhWeb - 1.Labos, REST API</title>
+  </head>
+  <body style="font-family: 'Open Sans', sans-serif; font-size: 14px">
+    <div style="margin: 2rem">
+      <h1>API Documentation</h1>
+      <table class="table table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Resurs</th>
+            <th scope="col">Operacija</th>
+            <th scope="col">URL/HTTP Metoda</th>
+            <th scope="col">Opis</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">User</th>
+            <td>CREATE</td>
+            <td>POST http://localhost:3000/register</td>
+            <td>
+              POST metoda na registracijskom URL-u se koristi za stvaranje novog
+              korisnika. Tijelo (body) sadrži korisničko ime (username),
+              lozinku(password) i email.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">User</th>
+            <td>READ</td>
+            <td>GET http://localhost:3000/api/users/:username</td>
+            <td>
+              GET metoda dohvaća informacije o profilu korisnika. Zahtijeva
+              autorizaciju pomoću JWT-a. Iz sigurnosnih razloga ne dohvaća
+              lozinku. Uspješno izvršavanje vraća <b>200 OK</b>. Može vratiti
+              <b>401 Unauthorized</b> ako korisnik nije autoriziran za pregled
+              profila URL-a.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">User</th>
+            <td>READ</td>
+            <td>GET http://localhost:3000/api/users</td>
+            <td>
+              Dohvati sve korisnike(samo korisnička imena) aplikacije. Zahtijeva autorizaciju korisnika.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">User</th>
+            <td>UPDATE</td>
+            <td>PUT http://localhost:3000/api/users/:username</td>
+            <td>
+              PUT metoda na već postojeći resurs uzrokuje izmjenu tog resursa.
+              Tijelo zahtjeva sadržava lozinku i email korisnika. Ako je
+              uspješno obavljeno vraća <b>200 OK</b>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">User</th>
+            <td>DELETE</td>
+            <td>DELETE http://localhost:3000/api/users/:username</td>
+            <td>
+              DELETE metoda briše trenutno prijavljenog korisnika. Očigledno
+              zahtjeva autorizaciju. Uspješno izvršavanje vraća <b>200 OK</b>.
+            </td>
+          </tr>
+
+          <tr>
+            <th scope="row">Post</th>
+            <td>CREATE</td>
+            <td>POST http://localhost:3000/api/posts</td>
+            <td>
+              Stvara novu objavu u aplikaciji. Zahtijeva autorizaciju korisnika.
+              Vraća <b>201 Created</b>
+              ako je objava uspješno obavljena. Tijelo (body) zahtjeva sadržava
+              naslov i sadržaj objave.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Post</th>
+            <td>READ</td>
+            <td>GET http://localhost:3000/api/posts/:postID</td>
+            <td>
+              Dohvaća objavu označenu s postID. PostID je jedinstveni
+              identifikator objave, definiran kao autoinkrementirajući integer u
+              bazi podataka.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Post</th>
+            <td>READ</td>
+            <td>GET http://localhost:3000/api/users/:username/posts</td>
+            <td>
+              Dohvaća sve objave korisnika specificiranog URL parametrom :username.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Post</th>
+            <td>UPDATE</td>
+            <td>PUT http://localhost:3000/api/posts/:postID</td>
+            <td>
+              Izmjenjuje sadržaj objave. Tijelo(body) mora sadržavati novi naslov i novi sadržaj objave. 
+              Zahtijeva autorizaciju (korisnici samo svoje objave mogu mijenjati).
+              Vraća <b>200 OK</b> ako je uspješno obavljena metoda.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

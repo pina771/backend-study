@@ -1,7 +1,7 @@
 const db = require("../db/db");
 
 async function getAllUsers(params) {
-  const sql = `SELECT * FROM users_no_pw`;
+  const sql = `SELECT username FROM users_no_pw`;
   try {
     const result = await db.query(sql, []);
     return result.rows;
@@ -38,7 +38,7 @@ async function getLoginData(params){
 // $2 = password
 // $3 = email
 async function createUser(params) {
-  const sql = "INSERT INTO USERS values (($1),($2),($3) )";
+  const sql = "INSERT INTO USERS values (($1),($3),($2) )";
   try {
     const result = await db.query(sql, params);
     console.log("Test result = " + result);
@@ -63,7 +63,7 @@ async function deleteUser(params) {
 
 async function updateUser(params) {
   const sql =
-    "UPDATE TABLE users SET password=($2),email=($3) WHERE username=($1)";
+    "UPDATE users SET password=($2),email=($3) WHERE username=($1)";
   try {
     const result = await db.query(sql, params);
     console.log("Update result =" + result);
