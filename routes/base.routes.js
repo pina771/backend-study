@@ -33,12 +33,13 @@ router.post("/login", (req, res, next) => {
       });
       const refreshToken = jwt.sign({ username: user.username }, refreshSecret);
       refreshTokens.push(refreshToken);
-      res.json({ accessToken, refreshToken });
+      var jObj = {accessToken:accessToken, refreshToken:refreshToken}
+      res.status(200).send(jObj);
     }
   })();
 });
 
-router.post("/logout", (req, res, next) => {
+router.post("/logout", authenticateJWT, (req, res, next) => {
   console.log("User is logging out, his refresh token will be destroyed");
   const token = req.body.token;
   refreshTokens = refreshTokens.filter((token) => t !== token);

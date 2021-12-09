@@ -41,6 +41,9 @@ router.delete("/:username", authenticateJWT, (req, res, next) => {
 router.put("/:username", authenticateJWT, (req, res, next) => {
   (async () => {
     if (req.authInfo.username == req.params.username) {
+      var user = await userQueries.getUserByUsername(req.params.username);
+      if (user[0] === undefined )
+        return res.sendStatus(404);
       var result = await userQueries.updateUser([
         req.authInfo.username,
         req.body.password,

@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 const usersRouter = require("./routes/user.routes");
 const postsRouter = require("./routes/post.routes");
 const registerRouter = require("./routes/register.routes");
-const loginRouter = require("./routes/login.routes");
 const baseRouter = require("./routes/base.routes");
 
 const app = express();
@@ -19,17 +18,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Router setup
-app.get("/api", (req,res,next) => {
+app.get("/api", (req, res, next) => {
   res.render("api");
-})
+});
 app.use("/", baseRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/posts", postsRouter);
 app.use("/register", registerRouter);
-
 
 app.set("view engine", "ejs");
 
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}.`);
 });
+module.exports = app;

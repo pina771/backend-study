@@ -41,7 +41,7 @@ async function createUser(params) {
   const sql = "INSERT INTO USERS values (($1),($3),($2) )";
   try {
     const result = await db.query(sql, params);
-    console.log("Test result = " + result);
+    // console.log("Test result = " + result);
     return result.rows;
   } catch (err) {
     console.log(err);
@@ -53,7 +53,6 @@ async function deleteUser(params) {
   const sql = "DELETE FROM users WHERE username = ($1)";
   try {
     const result = await db.query(sql, params);
-    console.log("Delete result = " + result);
     return result.rows;
   } catch (err) {
     console.log(err);
@@ -66,7 +65,7 @@ async function updateUser(params) {
     "UPDATE users SET password=($2),email=($3) WHERE username=($1)";
   try {
     const result = await db.query(sql, params);
-    console.log("Update result =" + result);
+    //console.log("Update result =" + result);
     return result.rows;
   } catch (err) {
     console.log(err);

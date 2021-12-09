@@ -68,6 +68,7 @@ router.delete("/:postId", authenticateJWT, (req, res, next) => {
         res.status(401).send("User not authorized to delete this post!");
       } else {
         var result = await postQueries.deletePost(req.params.postId);
+        res.status(200).send("Post successfully deleted!");
       }
     }
   })();
