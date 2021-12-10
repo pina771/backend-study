@@ -22,12 +22,13 @@ async function getUserByUsername(params) {
   }
 }
 
-async function getLoginData(params){
-  const sql = "SELECT username,password FROM users WHERE username=($1) AND password=($2)"
+async function getLoginData(params) {
+  const sql =
+    "SELECT username,password FROM users WHERE username=($1) AND password=($2)";
   try {
-    const result = await db.query(sql,params);
+    const result = await db.query(sql, params);
     return result.rows;
-  } catch(err) {
+  } catch (err) {
     console.log(err);
     throw err;
   }
@@ -49,9 +50,10 @@ async function createUser(params) {
   }
 }
 
+// NOTE: Briše i sve objave od korisnika
+// Constraint : Foreign key ON DELETE CASCADE
 async function deleteUser(params) {
-  
-  const sql = "DELETE FROM users WHERE username = ($1)";
+  const sql = "DELETE  FROM users WHERE username = ($1)";
   try {
     const result = await db.query(sql, [params]);
     return result.rows;
@@ -62,8 +64,7 @@ async function deleteUser(params) {
 }
 
 async function updateUser(params) {
-  const sql =
-    "UPDATE users SET password=($2),email=($3) WHERE username=($1)";
+  const sql = "UPDATE users SET password=($2),email=($3) WHERE username=($1)";
   try {
     const result = await db.query(sql, params);
     //console.log("Update result =" + result);
@@ -80,5 +81,5 @@ module.exports = {
   createUser,
   updateUser,
   deleteUser,
-  getLoginData
+  getLoginData,
 };

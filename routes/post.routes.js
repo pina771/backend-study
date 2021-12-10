@@ -19,7 +19,8 @@ router.post("/", authenticateJWT, (req, res, next) => {
       req.body.content,
       req.authInfo.username,
     ]);
-    res.status(201).send("Post created!");
+
+    res.redirect(201, req.originalUrl + "/" + result[0].post_id);
   })();
 });
 
@@ -32,7 +33,6 @@ router.get("/:postId", (req, res, next) => {
     }
   })();
 });
-
 
 router.put("/:postId", authenticateJWT, (req, res, next) => {
   (async () => {
@@ -56,7 +56,6 @@ router.put("/:postId", authenticateJWT, (req, res, next) => {
     }
   })();
 });
-
 
 router.delete("/:postId", authenticateJWT, (req, res, next) => {
   (async () => {

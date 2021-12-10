@@ -19,8 +19,9 @@ router.get("/:username", authenticateJWT, (req, res, next) => {
   (async () => {
     if (req.authInfo.username == req.params.username) {
       var user = await userQueries.getUserByUsername(req.params.username);
-      console.log(user);
-      res.status(200).json(user);
+      if (user[0] === undefined) return res.sendStatus(404);
+      console.log(user[0]);
+      return res.status(200).send(user[0]);
     } else {
       res.status(401).send("Unauthorized");
     }
@@ -31,7 +32,7 @@ router.delete("/:username", authenticateJWT, (req, res, next) => {
   (async () => {
     if (req.authInfo.username == req.params.username) {
       var result = await userQueries.deleteUser([req.params.username]);
-      res.redirect(200,"http://localhost:3000" );
+      res.redirect(200, "http://localhost:3000");
     } else {
       res.status(401).send("Unauthorized!");
     }
@@ -42,8 +43,7 @@ router.put("/:username", authenticateJWT, (req, res, next) => {
   (async () => {
     if (req.authInfo.username == req.params.username) {
       var user = await userQueries.getUserByUsername(req.params.username);
-      if (user[0] === undefined )
-        return res.sendStatus(404);
+      if (user[0] === undefined) return res.sendStatus(404);
       var result = await userQueries.updateUser([
         req.authInfo.username,
         req.body.password,
@@ -51,7 +51,7 @@ router.put("/:username", authenticateJWT, (req, res, next) => {
       ]);
       res.status(200).send("User info succesfully changed");
     } else {
-      res.status(401).send("Unauthorized!");
+      res.status(403).send("Unauthorized!");
     }
   })();
 });

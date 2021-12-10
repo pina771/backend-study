@@ -36,7 +36,7 @@ async function getPostsOfUser(params) {
 // $2 = Content
 // $3 = username
 async function createNewPost(params) {
-  const sql = `INSERT INTO posts VALUES (DEFAULT, ($1), ($2), DEFAULT, ($3), now())`;
+  const sql = `INSERT INTO posts VALUES (DEFAULT, ($1), ($2), DEFAULT, ($3), now()) RETURNING post_id`;
   try {
     const result = await db.query(sql, params);
     return result.rows;

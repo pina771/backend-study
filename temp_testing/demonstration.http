@@ -37,7 +37,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBpb
 ###
 POST http://localhost:3000/api/posts
 Content-Type: application/json
-Authorization: Bearer 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBpbmE3NzEiLCJpYXQiOjE2MzkxNjYwMzcsImV4cCI6MTYzOTE3MzIzN30.e7E0Ao7Lg19XSDeYjWn1A31pq7autzopKbsySk6O6aM
 
 {
     "title":"Test post from REST CLIENT",
