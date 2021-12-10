@@ -1,4 +1,4 @@
 node_modules
 .env
-temp_testing
+temp_testing/*
 mochawesome-report

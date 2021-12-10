@@ -11,11 +11,11 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-const secret = "elder-reflections-of-a-floating-world";
+const secret = process.env.TOKEN_SECRET;
 
 // Postavljamo da API može interpretirati www-urlencoded i JSON tijela
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); // FORM
+app.use(bodyParser.json()); //
 
 // Router setup
 app.get("/api", (req, res, next) => {

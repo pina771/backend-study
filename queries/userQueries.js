@@ -50,9 +50,10 @@ async function createUser(params) {
 }
 
 async function deleteUser(params) {
+  
   const sql = "DELETE FROM users WHERE username = ($1)";
   try {
-    const result = await db.query(sql, params);
+    const result = await db.query(sql, [params]);
     return result.rows;
   } catch (err) {
     console.log(err);

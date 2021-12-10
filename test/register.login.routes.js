@@ -4,11 +4,12 @@ const postQueries = require("../queries/postQueries");
 let chai = require("chai");
 let chaiHttp = require("chai-http");
 let server = require("../index");
+const { expect } = require("chai");
 let should = chai.should();
 
 chai.use(chaiHttp);
 
-describe("User Registration and Login", () => {
+describe("User Registration and Login", function () {
   let testUser = {
     username: "testuser123",
     password: "testpassword123",
@@ -18,15 +19,15 @@ describe("User Registration and Login", () => {
   let refreshToken;
 
   // Saniranje prije i poslije testova za registraciju i login
-  before(() => {
-    userQueries.deleteUser([testUser.username]);
+  before(async () => {
+    await userQueries.deleteUser(testUser.username);
   });
-  after(() => {
-    userQueries.deleteUser([testUser.username]);
+  after(async () => {
+    await userQueries.deleteUser(testUser.username);
   });
 
   // Testiranje za registraciju
-  describe("POST /register", () => {
+  describe("POST /register", function () {
     it("User tries to register.Data is sound, should be successful.", (done) => {
       // Šaljemo zahtjev na server za registraciju korisnika testUser
       chai
@@ -38,19 +39,19 @@ describe("User Registration and Login", () => {
           done();
         });
     });
-    it("User tries to register, but user already exists. Should fail and return 403.", (done) => {
+    it("User tries to register, but user already exists. Should fail and return 409.", (done) => {
       chai
         .request(server)
         .post("/register")
         .send(testUser)
         .end((err, res) => {
-          res.should.have.status(403);
+          res.should.have.status(409);
           done();
         });
     });
   });
   // Testiranje za login
-  describe("POST /login", () => {
+  describe("POST /login", function () {
     it("User attempts to log-in with the correct information. Should return 200 OK + accessToken&refreshToken.\n\
       Return body should be JSON.", (done) => {
       let loginData = {
@@ -84,7 +85,7 @@ describe("User Registration and Login", () => {
         });
     });
   });
-  describe("POST /logout", () => {
+  describe("POST /logout", function () {
     it("Already logged in user attempts to log-out. He sends his JWT access token.", (done) => {
       chai
         .request(server)
@@ -98,3 +99,5 @@ describe("User Registration and Login", () => {
     });
   });
 });
+
+module.exports ={}
