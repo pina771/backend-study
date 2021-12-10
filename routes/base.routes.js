@@ -2,6 +2,7 @@ const express = require("express");
 const userQueries = require("../queries/userQueries");
 const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
+const { authenticateJWT } = require("../auth/auth");
 
 dotenv.config();
 
@@ -9,7 +10,7 @@ var router = express.Router();
 
 const secret = process.env.TOKEN_SECRET;
 const refreshSecret = process.env.REFRESH_TOKEN_SECRET;
-const refreshTokens = [];
+var refreshTokens = [];
 
 router.get("/api", (req, res, next) => {
   res.render("api");
@@ -33,16 +34,17 @@ router.post("/login", (req, res, next) => {
       });
       const refreshToken = jwt.sign({ username: user.username }, refreshSecret);
       refreshTokens.push(refreshToken);
-      var jObj = {accessToken:accessToken, refreshToken:refreshToken}
+      var jObj = { accessToken: accessToken, refreshToken: refreshToken };
       res.status(200).send(jObj);
     }
   })();
 });
 
+
 router.post("/logout", authenticateJWT, (req, res, next) => {
   console.log("User is logging out, his refresh token will be destroyed");
-  const token = req.body.token;
-  refreshTokens = refreshTokens.filter((token) => t !== token);
+  var token = req.body.token;
+  refreshTokens = refreshTokens.filter((element) => element !== token);
   res.send("Logout successful");
 });
 

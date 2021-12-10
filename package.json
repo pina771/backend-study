@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "mocha --timeout 10000"
+    "test": "mocha --timeout 10000",
+    "test-pretty":"mocha --timeot 10000 --reporter mochawesome"
   },
   "author": "fs50810",
   "license": "ISC",
@@ -20,6 +21,7 @@
   "devDependencies": {
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",
-    "mocha": "^9.1.3"
+    "mocha": "^9.1.3",
+    "mochawesome": "^7.0.1"
   }
 }

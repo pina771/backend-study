@@ -14,8 +14,8 @@ describe("User Registration and Login", () => {
     password: "testpassword123",
     email: "testuser@email.com",
   };
-  let accessToken ;
-  let refreshToken ; 
+  let accessToken;
+  let refreshToken;
 
   // Saniranje prije i poslije testova za registraciju i login
   before(() => {
@@ -64,6 +64,7 @@ describe("User Registration and Login", () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a("object");
+          refreshToken = res.body.refreshToken;
           accessToken = res.body.accessToken;
           done();
         });
@@ -84,10 +85,16 @@ describe("User Registration and Login", () => {
     });
   });
   describe("POST /logout", () => {
-    it(
-      "Already logged in user attempts to log-out. He sends his JWT access token.", (done) => {
-          chai.request(server).post("/logout").set("Authorization","Bearer: "+accessToken).send({token:accessToken})
-      }
-    );
+    it("Already logged in user attempts to log-out. He sends his JWT access token.", (done) => {
+      chai
+        .request(server)
+        .post("/logout")
+        .set("Authorization", "Bearer: " + accessToken)
+        .send({ token: refreshToken })
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
   });
 });
