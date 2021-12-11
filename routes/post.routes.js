@@ -19,8 +19,9 @@ router.post("/", authenticateJWT, (req, res, next) => {
       req.body.content,
       req.authInfo.username,
     ]);
-
-    res.redirect(201, req.originalUrl + "/" + result[0].post_id);
+    return res
+      .setHeader("Location", req.originalUrl + "/" + result[0].post_id)
+      .sendStatus(201);
   })();
 });
 
@@ -51,7 +52,7 @@ router.put("/:postId", authenticateJWT, (req, res, next) => {
           req.body.title,
           req.body.content,
         ]);
-        res.status(200).send("Post successfully edited.");
+        res.sendStatus(200);
       }
     }
   })();

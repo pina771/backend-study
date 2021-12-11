@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "mocha --timeout 10000",
-    "test-pretty":"mocha --timeot 10000 --reporter mochawesome"
+    "test-pretty":"mocha --timeout 10000 --reporter mochawesome"
   },
   "author": "fs50810",
   "license": "ISC",

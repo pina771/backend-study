@@ -86,7 +86,7 @@ describe("User Registration and Login", function () {
     });
   });
   describe("POST /logout", function () {
-    it("Already logged in user attempts to log-out. He sends his JWT access token.", (done) => {
+    it("Already logged in user attempts to log-out. He sends his JWT refresh token.", (done) => {
       chai
         .request(server)
         .post("/logout")

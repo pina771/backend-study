@@ -37,23 +37,23 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBpb
 ###
 POST http://localhost:3000/api/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBpbmE3NzEiLCJpYXQiOjE2MzkxNjYwMzcsImV4cCI6MTYzOTE3MzIzN30.e7E0Ao7Lg19XSDeYjWn1A31pq7autzopKbsySk6O6aM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBpbmE3NzEiLCJpYXQiOjE2MzkxNzgwODAsImV4cCI6MTYzOTE4NTI4MH0.c43cmUA4N10e_RF5Isac3pSvA8MwQI8v_eEed1_XbmY
 
 {
     "title":"Test post from REST CLIENT",
     "content":"Howdy there, It's been a long time since we last saw each other."
 }
 ###
-PUT http://localhost:3000/api/posts/7
+PUT http://localhost:3000/api/posts/42
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBpbmE3NzEiLCJpYXQiOjE2MzkwODY0MzgsImV4cCI6MTYzOTA5MzYzOH0.H8MTCj7eeE2qoSG90HgRaf3EUVOZ4YDHFeLVsbMSRfU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBpbmE3NzEiLCJpYXQiOjE2MzkxNzgwODAsImV4cCI6MTYzOTE4NTI4MH0.c43cmUA4N10e_RF5Isac3pSvA8MwQI8v_eEed1_XbmY
 
 {
     "title":"Changed Title!",
     "content": "Whenever,wherever!"
 }
 ###
-DELETE http://localhost:3000/api/posts/7
+DELETE http://localhost:3000/api/posts/46
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBpbmE3NzEiLCJpYXQiOjE2MzkwNzA2NzF9.wrAcUtGAx52m8DH3vp09rPBAhq8D8BEFZbvGLgqS6qM
 ###
 DELETE http://localhost:3000/api/users/pina771

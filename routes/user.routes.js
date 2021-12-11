@@ -9,7 +9,6 @@ var router = express.Router();
 router.get("/", authenticateJWT, (req, res, next) => {
   (async () => {
     var users = await userQueries.getAllUsers();
-    console.log(users);
     res.status(200).json(users);
   })();
 });
@@ -20,7 +19,6 @@ router.get("/:username", authenticateJWT, (req, res, next) => {
     if (req.authInfo.username == req.params.username) {
       var user = await userQueries.getUserByUsername(req.params.username);
       if (user[0] === undefined) return res.sendStatus(404);
-      console.log(user[0]);
       return res.status(200).send(user[0]);
     } else {
       res.status(401).send("Unauthorized");

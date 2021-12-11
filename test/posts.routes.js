@@ -75,6 +75,7 @@ describe("Posts", () => {
         .send({ title: "Test-Post-Title", content: "Test-Post-Content" })
         .end((err, res) => {
           res.should.have.status(201);
+          res.should.have.header("Location");
           done();
         });
     });
@@ -92,8 +93,9 @@ describe("Posts", () => {
         });
     });
   });
-  /* describe("PUT /api/posts/:postId", () => {
-    let postId ;
+  describe("PUT /api/posts/:postId", () => {
+    // Prije obavljanja ispitivanja stvaramo novu objavu koju ćemo urediti
+    let postURL;
     before((done) => {
       chai
         .request(server)
@@ -101,12 +103,46 @@ describe("Posts", () => {
         .set("Authorization", "Bearer: " + accessToken)
         .send({ title: "Test-Post-Title", content: "Test-Post-Content" })
         .end((err, res) => {
+          postURL = res.get("Location");
           done();
         });
     });
     it("User attempts to edit his own post. Should return 200 OK if succesfully edited.", (done) => {
-      chai.request(server)
-      .put("/api/posts")
-    })
-  }); */
+      chai
+        .request(server)
+        .put(postURL)
+        .set("Authorization", "Bearer: " + accessToken)
+        .send({ title: "New-Title-Test", content: "New-Content-Test" })
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
+  });
+  describe("DELETE /api/posts/:postID", () => {
+    // Prije moramo stvoriti "dummy post"
+    let postURL;
+    before((done) => {
+      chai
+        .request(server)
+        .post("/api/posts")
+        .set("Authorization", "Bearer: " + accessToken)
+        .send({ title: "Test-Post-Title", content: "Test-Post-Content" })
+        .end((err, res) => {
+          postURL = res.get("Location");
+          done();
+        });
+    });
+
+    it("Authorized user attempts to delete his own post. Should return 200 OK and delete the post.", (done) => {
+      chai
+        .request(server)
+        .delete(postURL)
+        .set("Authorization", "Bearer: " + accessToken)
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
+  });
 });

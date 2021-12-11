@@ -52,7 +52,7 @@ async function createNewPost(params) {
 // $3 = new Content
 
 async function editPost(params) {
-  const sql = `UPDATE posts SET title=($2), content=($3) WHERE post_id = ($1)`;
+  const sql = `UPDATE posts SET title=($2), content=($3) WHERE post_id = ($1) RETURNING post_id`;
   try {
     const result = await db.query(sql, params);
     return result.rows;

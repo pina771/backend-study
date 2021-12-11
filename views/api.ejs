@@ -97,6 +97,15 @@
           <tr>
             <th scope="row">Post</th>
             <td>READ</td>
+            <td>GET http://localhost:3000/api/posts</td>
+            <td>
+              Dohvaća sve objave u aplikaciji. Ne zahtijeva autorizaciju. Uspješno
+              obavljanje vraća 200 OK i polje objekata u JSON notaciji.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Post</th>
+            <td>READ</td>
             <td>GET http://localhost:3000/api/posts/:postID</td>
             <td>
               Dohvaća objavu označenu s postID. PostID je jedinstveni

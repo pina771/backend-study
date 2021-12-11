@@ -73,6 +73,20 @@ describe("User resource testing", function () {
     );
   });
 
+  describe("GET /api/users/:username/posts", function () {
+    it("Attempts to get all posts of user specified in parameter. Should return 200 and array of objects.", (done) => {
+      chai
+        .request(server)
+        .get("/api/users/pina771/posts")
+        .set("Authorization", "Bearer: " + accessToken)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a("array");
+          done();
+        });
+    });
+  });
+
   describe("PUT /api/users/:username", function () {
     it(
       "Currently authenticated & authorized user tries to edit his own profle info." +
