@@ -11,9 +11,9 @@ chai.use(chaiHttp);
 
 describe("Posts", () => {
   let testUser = {
-    username: "testuser123",
-    password: "testpassword123",
-    email: "testuser@email.com",
+    username: "testuser2",
+    password: "testpassword2",
+    email: "testuser2@email.com",
   };
   let accessToken;
   let refreshToken;
@@ -68,6 +68,7 @@ describe("Posts", () => {
   });
   describe("POST /api/posts", () => {
     it("Authenticated user attempts to create a post on the application.Should return 201 Created", (done) => {
+      
       chai
         .request(server)
         .post("/api/posts")

@@ -11,9 +11,9 @@ chai.use(chaiHttp);
 
 describe("User resource testing", function () {
   let testUser = {
-    username: "testuser123",
-    password: "testpassword123",
-    email: "testuser@email.com",
+    username: "testuser1",
+    password: "testpassword1",
+    email: "testuser1@email.com",
   };
   let accessToken;
   let refreshToken;

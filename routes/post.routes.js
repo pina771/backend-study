@@ -44,7 +44,7 @@ router.put("/:postId", authenticateJWT, (req, res, next) => {
     } else {
       if (post[0].username !== req.authInfo.username) {
         // Ako nije autoriziran , 401 Unauthorized!
-        res.status(401).send("User not authorized to edit this post!");
+        res.status(403).send("User not authorized to edit this post!");
       } else {
         // Ako je objava pronađena I korisnik je onaj koji ju je stvorio
         var result = await postQueries.editPost([
@@ -65,7 +65,7 @@ router.delete("/:postId", authenticateJWT, (req, res, next) => {
       res.status(404).send("Post not found!");
     } else {
       if (post[0].username !== req.authInfo.username) {
-        res.status(401).send("User not authorized to delete this post!");
+        res.status(403).send("User not authorized to delete this post!");
       } else {
         var result = await postQueries.deletePost(req.params.postId);
         res.status(200).send("Post successfully deleted!");

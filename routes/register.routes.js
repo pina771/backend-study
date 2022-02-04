@@ -3,7 +3,6 @@ const userQueries = require("../queries/userQueries");
 
 var router = express.Router();
 
-// TODO: Registration View
 router.get("/", (req, res, next) => {
   res.render("registration");
 });

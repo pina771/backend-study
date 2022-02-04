@@ -21,7 +21,7 @@ router.get("/:username", authenticateJWT, (req, res, next) => {
       if (user[0] === undefined) return res.sendStatus(404);
       return res.status(200).send(user[0]);
     } else {
-      res.status(401).send("Unauthorized");
+      res.sendStatus(403);
     }
   })();
 });
@@ -32,7 +32,7 @@ router.delete("/:username", authenticateJWT, (req, res, next) => {
       var result = await userQueries.deleteUser([req.params.username]);
       res.redirect(200, "http://localhost:3000");
     } else {
-      res.status(401).send("Unauthorized!");
+      res.sendStatus(403);
     }
   })();
 });
@@ -49,7 +49,7 @@ router.put("/:username", authenticateJWT, (req, res, next) => {
       ]);
       res.status(200).send("User info succesfully changed");
     } else {
-      res.status(403).send("Unauthorized!");
+      res.sendStatus(403);
     }
   })();
 });

@@ -24,9 +24,9 @@
     <div style="margin: 2rem">
       <h1>API Documentation</h1>
       <table class="table table-hover">
+        <h3>User resource operations</h3>
         <thead class="thead-dark">
           <tr>
-            <th scope="col">Resurs</th>
             <th scope="col">Operacija</th>
             <th scope="col">URL/HTTP Metoda</th>
             <th scope="col">Opis</th>
@@ -34,110 +34,135 @@
         </thead>
         <tbody>
           <tr>
-            <th scope="row">User</th>
-            <td>CREATE</td>
+            <th scope="row">CREATE</th>
             <td>POST http://localhost:3000/register</td>
             <td>
               POST metoda na registracijskom URL-u se koristi za stvaranje novog
               korisnika. Tijelo (body) sadrži korisničko ime (username),
-              lozinku(password) i email.
+              lozinku(password) i email.<br>Vraća <b>201 Created</b> ako je uspješno obavljeno.
+              <br>Ako korisnik već postoji,vraća <b>409 Conflict</b>.
             </td>
           </tr>
           <tr>
-            <th scope="row">User</th>
-            <td>READ</td>
+            <th scope="row">READ</th>
             <td>GET http://localhost:3000/api/users/:username</td>
             <td>
               GET metoda dohvaća informacije o profilu korisnika. Zahtijeva
               autorizaciju pomoću JWT-a. Iz sigurnosnih razloga ne dohvaća
-              lozinku. Uspješno izvršavanje vraća <b>200 OK</b>. Može vratiti
-              <b>401 Unauthorized</b> ako korisnik nije autoriziran za pregled
+              lozinku.<br>Uspješno izvršavanje vraća <b>200 OK</b> i informacije o korisniku.<br>Može vratiti
+              <b>403 Forbidden</b> ako korisnik nije autoriziran za pregled
               profila URL-a.
             </td>
           </tr>
           <tr>
-            <th scope="row">User</th>
-            <td>READ</td>
+            <th scope="row">READ</th>
             <td>GET http://localhost:3000/api/users</td>
             <td>
-              Dohvati sve korisnike(samo korisnička imena) aplikacije. Zahtijeva autorizaciju korisnika.
+              Dohvati sve korisnike(samo korisnička imena) aplikacije. Zahtijeva
+              autorizaciju korisnika.<br>Uspješno vraća <b>200 OK</b> i polje svih
+              korisnika.
             </td>
           </tr>
           <tr>
-            <th scope="row">User</th>
-            <td>UPDATE</td>
+            <th scope="row">UPDATE</th>
             <td>PUT http://localhost:3000/api/users/:username</td>
             <td>
               PUT metoda na već postojeći resurs uzrokuje izmjenu tog resursa.
-              Tijelo zahtjeva sadržava lozinku i email korisnika. Ako je
-              uspješno obavljeno vraća <b>200 OK</b>
+              Tijelo zahtjeva sadržava lozinku i email korisnika.<br>Ako je
+              uspješno obavljeno vraća <b>200 OK</b>.<br>Ako korisnik pokuša promijeniti informacije
+              drugih korisnika, odgovor je <b>403 Forbidden</b>.
             </td>
           </tr>
           <tr>
-            <th scope="row">User</th>
-            <td>DELETE</td>
+            <th scope="row">DELETE</th>
             <td>DELETE http://localhost:3000/api/users/:username</td>
             <td>
-              DELETE metoda briše trenutno prijavljenog korisnika. Očigledno
-              zahtjeva autorizaciju. Uspješno izvršavanje vraća <b>200 OK</b>.
+              DELETE metoda briše korisnički račun trenutno prijavljenog korisnika. Očigledno
+              zahtjeva autorizaciju.<br> Uspješno izvršavanje vraća <b>200 OK</b>.<br>Ako korisnik 
+              pokuša izbrisati ostale račune, odgovor je <b>403 Frobidden.</b>
             </td>
           </tr>
+        </tbody>
+      </table>
+      <br />
 
+      <table class="table table-hover">
+        <h3>Post resource operations</h3>
+
+        <thead class="thead-dark">
           <tr>
-            <th scope="row">Post</th>
-            <td>CREATE</td>
+            <th scope="col">Operacija</th>
+            <th scope="col">URL/HTTP Metoda</th>
+            <th scope="col">Opis</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">CREATE</th>
             <td>POST http://localhost:3000/api/posts</td>
             <td>
-              Stvara novu objavu u aplikaciji. Zahtijeva autorizaciju korisnika.
-              Vraća <b>201 Created</b>
-              ako je objava uspješno obavljena. Tijelo (body) zahtjeva sadržava
-              naslov i sadržaj objave.
+              Stvara novu objavu u aplikaciji. Zahtijeva autorizaciju korisnika.Tijelo (body) zahtjeva sadržava naslov i
+              sadržaj objave.
+              <br>Vraća <b>201 Created</b> i <b>Location</b> header ako je objava
+              uspješno obavljena. 
+              <br>Ako korisnik nije autoriziran, šalje <b>401 Unauthorized</b>.
             </td>
           </tr>
           <tr>
-            <th scope="row">Post</th>
-            <td>READ</td>
+            <th scope="row">READ</th>
             <td>GET http://localhost:3000/api/posts</td>
             <td>
-              Dohvaća sve objave u aplikaciji. Ne zahtijeva autorizaciju. Uspješno
-              obavljanje vraća 200 OK i polje objekata u JSON notaciji.
+              Dohvaća sve objave u aplikaciji. Ne zahtijeva autorizaciju.
+              <br>Uspješno obavljanje vraća <b>200 OK</b> i polje objekata u JSON notaciji.
             </td>
           </tr>
           <tr>
-            <th scope="row">Post</th>
-            <td>READ</td>
+            <th scope="row">READ</th>
             <td>GET http://localhost:3000/api/posts/:postID</td>
             <td>
               Dohvaća objavu označenu s postID. PostID je jedinstveni
               identifikator objave, definiran kao autoinkrementirajući integer u
               bazi podataka.
+              <br>Uspješno vraća <b>200 OK</b> i u tijelu informacije o objavi.
             </td>
           </tr>
           <tr>
-            <th scope="row">Post</th>
+            <th scope="row">UPDATE</th>
+            <td>PUT http://localhost:3000/api/posts/:postID</td>
+            <td>
+              Izmjenjuje sadržaj objave. Tijelo(body) mora sadržavati novi
+              naslov i novi sadržaj objave. Zahtijeva autorizaciju (korisnici
+              samo svoje objave mogu mijenjati).
+              <br>Vraća <b>200 OK</b> ako je uspješno obavljena operacija.
+              <br>Ako je zahtjev nad nepostojećom objavom , vraća <b>404 Not Found</b>.
+              <br>Ako korisnik pokuša izmjeniti objave drugog korisnika, šalje se <b>403 Forbidden</b>.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">DELETE</th>
+            <td>DELETE http://localhost:3000/api/posts/:postID</td>
+            <td>
+              Briše objavu na definiranom URL-u. Zahtijeva autorizaciju
+              (korisnici mogu samo svoje objave) brisati.
+              <br> Prilikom uspješnog obavljanja vraća <b>200 OK</b>
+              <br>Pokušaj brisanja objava drugih korisnika rezultira <b>403 Forbidden</b>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br />
+      
+      <h3>User/Post combination</h3>
+      <table class="table table-hover">
+        <tbody>
+          <tr>
+            <th scope="row">User/Post</th>
             <td>READ</td>
             <td>GET http://localhost:3000/api/users/:username/posts</td>
             <td>
-              Dohvaća sve objave korisnika specificiranog URL parametrom :username.
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">Post</th>
-            <td>UPDATE</td>
-            <td>PUT http://localhost:3000/api/posts/:postID</td>
-            <td>
-              Izmjenjuje sadržaj objave. Tijelo(body) mora sadržavati novi naslov i novi sadržaj objave. 
-              Zahtijeva autorizaciju (korisnici samo svoje objave mogu mijenjati).
-              Vraća <b>200 OK</b> ako je uspješno obavljena metoda.
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">Post</th>
-            <td>DELETE</td>
-            <td>DELETE http://localhost:3000/api/posts/:postID</td>
-            <td>
-              Briše objavu na definiranom URL-u. Zahtijeva autorizaciju (korisnici mogu samo svoje objave)
-              brisati. Prilikom uspješnog obavljanja vraća <b>200 OK</b>
+              Dohvaća sve objave korisnika specificiranog URL parametrom
+              :username. Vraća <b>200 OK</b>
+              i u tijelu polje objekata (objava) u JSON notaciji.
             </td>
           </tr>
         </tbody>
